@@ -330,6 +330,8 @@ namespace WebSocketSharp
 
     #region Public Properties
 
+    public Dictionary<string, string> DefaultHeaders { get; set; } = new Dictionary<string, string>();
+
     /// <summary>
     /// Gets or sets the compression method used to compress a message.
     /// </summary>
@@ -1321,6 +1323,12 @@ namespace WebSocketSharp
       var ret = HttpRequest.CreateWebSocketRequest (_uri);
 
       var headers = ret.Headers;
+
+      foreach (var defaultHeader in DefaultHeaders)
+      {
+        headers[defaultHeader.Key] = defaultHeader.Value;
+      }
+      
       if (!_origin.IsNullOrEmpty ())
         headers["Origin"] = _origin;
 
